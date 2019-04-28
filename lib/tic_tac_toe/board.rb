@@ -1,6 +1,6 @@
 module TicTacToe
     class Board
-        def initialize(input)
+        def initialize(input={})
             @grid = input.fetch(:grid, default_grid)
         end
         
@@ -9,9 +9,16 @@ module TicTacToe
         def default_grid
             Array.new(3) {Array.new(3) {Cell.new}}
         end
+        public
+
+        def formatted_grid
+            @grid.each do |row|
+                puts row.map{|cell| cell.value.empty? ? "_": cell.value}.join("")
+            end
+        end
 
         def get_cell(x, y)
-            grid[y][x]
+            @grid[y][x]
         end
 
         def set_cell(x, y, value)
@@ -25,12 +32,12 @@ module TicTacToe
         end
 
         def draw?
-            grid.flatten.map {|cell| cell.value}.none_empty?
+            @grid.flatten.map {|cell| cell.value}.none_empty?
         end
 
         def winning_positions
-            grid + # rows
-            grid.transpose + # columns
+            @grid + # rows
+            @grid.transpose + # columns
             diagonals # two diagonals
         end
 
